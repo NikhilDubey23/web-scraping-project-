@@ -1,0 +1,42 @@
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+Product_name = []
+Prices =[]
+Description =[]
+Reviews =[]
+for i in range(2,5):
+    url ="https://www.flipkart.com/search?q=mobile+under+5000&sid=tyy%2C4io&as=on&as-show=on&otracker=AS_QueryStore_OrganicAutoSuggest_1_14_na_na_na&otracker1=AS_QueryStore_OrganicAutoSuggest_1_14_na_na_na&as-pos=1&as-type=RECENT&suggestionId=mobile+under+5000%7CMobiles&requestId=ca19e2ea-2f2d-45c5-adf3-d7af138b45bd&as-searchtext=mobile%20under%205"+str(i)
+
+    r = requests.get(url)
+    #print(r)
+
+
+    soup = BeautifulSoup(r.text, "lxml")
+    box= soup.find("div",class_ = "_1YokD2 _3Mn1Gg")
+    names = box.find_all("div",class_ ="_4rR01T")
+    for i in names:
+        name =i.text
+        Product_name.append(name)
+    print(Product_name)
+    prices=box.find_all("div",class_="_30jeq3 _1_WHN1")
+    for i in prices:
+        name = i.text
+        Prices.append(name)
+    print(Prices)
+    desc = box.find_all("ul",class_ ="_1xgFaf")
+    for i in desc:
+        name=i.text
+        Description.append(name)
+    print(Description)
+
+    reviews = box.find_all("div",class_ ="_3LWZlK")
+    for i in reviews:
+        name =i.text
+        Reviews.append(name)
+print(Reviews)
+#df=pd.DataFrame({"product Name":Product_name,"Prices":Prices,"Description":Description,"Reviews":Reviews})
+
+#print(df)
+
+#df.to_csv("D:/web scraping/flipkart_mobiles_under_50000.csv")
